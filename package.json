@@ -3,11 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@avtopro/button": "^0.9.7-68cce67.0",
+    "@avtopro/collapse": "^0.1.0-c253a5b.0",
+    "@avtopro/css-grid": "^0.4.0",
+    "@avtopro/form-control": "^0.8.7-68cce67.0",
+    "@avtopro/form-frame": "^0.5.7-68cce67.0",
+    "@avtopro/modal": "^0.8.7-68cce67.0",
+    "@avtopro/text-input": "^0.7.7-68cce67.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.24.0",
+    "mobx-react": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -40,12 +50,16 @@
   "devDependencies": {
     "css-loader": "^6.7.3",
     "eslint": "^8.36.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "less": "^4.1.3",
     "less-loader": "^11.1.0",
     "prettier": "^2.8.7",
+    "react-app-rewired": "^2.2.1",
     "style-loader": "^3.3.2"
   }
 }
