@@ -8,6 +8,7 @@
     "@avtopro/css-grid": "^0.4.0",
     "@avtopro/form-control": "^0.8.7-68cce67.0",
     "@avtopro/form-frame": "^0.5.7-68cce67.0",
+    "@avtopro/item-card": "^0.1.0-a9a6c89.0",
     "@avtopro/modal": "^0.8.7-68cce67.0",
     "@avtopro/select": "^0.16.7-68cce67.0",
     "@avtopro/slider": "^0.4.7-68cce67.0",
@@ -21,6 +22,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "use-axios-client": "^2.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

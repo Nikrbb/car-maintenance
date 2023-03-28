@@ -7,9 +7,9 @@ import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    // <React.Context value={new Model()}>
     <BrowserRouter>
+        {/* <React.Context value={new Model()}> */}
         <App />
+        {/* </React.Context> */}
     </BrowserRouter>
-    // </React.Context>
 );

@@ -20,3 +20,6 @@
 .header__slider {
     flex-basis: 50%;
 }
+.content-step {
+    padding: 25px 0;
+}

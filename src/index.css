@@ -24,3 +24,43 @@ code {
 .align-center {
     align-items: center;
 }
+.justify-center {
+    justify-content: center;
+}
+.justify-end {
+    justify-content: end;
+}
+.gap-1 {
+    gap: 4px;
+}
+.gap-2 {
+    gap: 8px;
+}
+.gap-3 {
+    gap: 12px;
+}
+.pt-1 {
+    padding-top: 10px;
+}
+.pt-2 {
+    padding-top: 20px;
+}
+.border {
+    border: 1px solid gray;
+}
+.m-0 {
+    margin: 0;
+}
+.mt-0 {
+    margin-top: 0;
+}
+.p-relative {
+    position: relative;
+}
+.underline {
+    position: absolute;
+    bottom: -5px;
+    margin: 0;
+    left: -45px;
+    right: -45px;
+}
