@@ -30,6 +30,9 @@ code {
 .justify-end {
     justify-content: end;
 }
+.justify-between {
+    justify-content: space-between;
+}
 .gap-1 {
     gap: 4px;
 }
@@ -53,6 +56,9 @@ code {
 }
 .mt-0 {
     margin-top: 0;
+}
+.ml-auto {
+    margin-left: auto;
 }
 .p-relative {
     position: relative;

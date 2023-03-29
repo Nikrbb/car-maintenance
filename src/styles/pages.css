@@ -2,6 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 90vh;
     background-color: #E3ECF2
+}
+.home {
+    background-color: #E3ECF2;
+    min-height: 90vh;
 }

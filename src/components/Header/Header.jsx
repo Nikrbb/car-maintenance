@@ -7,8 +7,8 @@ import FormControl from '@avtopro/form-control/dist/index';
 import Button from '@avtopro/button/dist/index';
 import Slider from '@avtopro/slider/dist/index';
 import Select from '@avtopro/select/dist/index';
-import Modal from '@avtopro/modal/dist/index';
-import ModalContent from './ModalContent';
+// import Modal from '@avtopro/modal/dist/index';
+import Modal from '../Modal';
 
 export default function Header() {
     const [isVisibleFilter, setFilterVisibility] = useState(false);
@@ -57,13 +57,7 @@ export default function Header() {
             ) : null}
 
             {isVisibleModal ? (
-                <Modal
-                    onClose={() => {
-                        setModalVisibility(!isVisibleModal);
-                    }}
-                >
-                    <ModalContent />
-                </Modal>
+                <Modal setModalVisibility={setModalVisibility} />
             ) : null}
         </div>
     );

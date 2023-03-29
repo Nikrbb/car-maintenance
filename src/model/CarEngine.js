@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
-class PartsGroup {
-    filteredList = [];
+class CarEngine {
+    choosenEngine = '';
 
     list = [];
 
@@ -10,21 +10,21 @@ class PartsGroup {
         makeAutoObservable(this);
     }
 
-    setGroupId(value) {
-        this.choosenGroup = value;
+    setEngine(value) {
+        this.choosenEngine = value;
     }
 
-    getGroups(param) {
+    getEngines(params) {
         return new Promise((resolve, reject) => {
             this.services
-                .get('getPartsGroups', param)
-                .then((responce) => {
-                    this.list = responce.data.groups;
-                    return resolve(responce);
+                .get('getEngines', params)
+                .then((response) => {
+                    this.list = response.data.engine;
+                    return resolve(response);
                 })
                 .catch((error) => reject(error));
         });
     }
 }
 
-export default PartsGroup;
+export default CarEngine;

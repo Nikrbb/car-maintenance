@@ -1,5 +1,11 @@
-// React create context
+import { makeAutoObservable } from 'mobx';
 
-// export default class UserModel {
-//     this.name = "me"
-// }
+class UserModel {
+    email = '';
+
+    constructor(ApiServices) {
+        this.services = ApiServices;
+        makeAutoObservable(this);
+    }
+}
+export default UserModel;

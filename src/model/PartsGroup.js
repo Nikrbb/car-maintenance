@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 class PartsGroup {
-    filteredList = [];
+    choosenGroup = null;
 
     list = [];
 

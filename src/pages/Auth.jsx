@@ -1,4 +1,4 @@
-import Login from '../components/Login/Login';
+import Login from '../components/Login';
 import '../styles/pages.css';
 
 export default function Auth() {
