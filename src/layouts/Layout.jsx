@@ -8,8 +8,8 @@ export default function Layout() {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) navigate('/');
-        else navigate('/home');
+        // if (!localStorage.getItem('token')) navigate('/');
+        // else navigate('/home');
     }, []);
 
     const logout = () => {

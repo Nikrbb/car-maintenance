@@ -91,6 +91,12 @@ function Modal({ setModalVisibility }) {
                     ))}
                 </Select>
 
+                <TextInput placeholder="Mileage" type="number" />
+                <hr className="underline" />
+            </div>
+
+            <div className="content-step p-relative">
+                {/* <Select searchable>{[].map((elem) => elem.name)}</Select> */}
                 <Select // Parts Group Select
                     onChange={(_, value) => setPartsGroup(value[0])}
                     placeholder="choose parts group"
@@ -103,13 +109,6 @@ function Modal({ setModalVisibility }) {
                         </Option>
                     ))}
                 </Select>
-
-                <TextInput placeholder="Mileage" type="number" />
-                <hr className="underline" />
-            </div>
-
-            <div className="content-step p-relative">
-                {/* <Select searchable>{[].map((elem) => elem.name)}</Select> */}
                 <Select searchable>{[].map((elem) => elem.name)}</Select>
                 <TextInput placeholder="Number" />
             </div>

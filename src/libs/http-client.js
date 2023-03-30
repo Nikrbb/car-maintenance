@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const options = {
-    baseURL: 'https://service-api-stas.azurewebsites.net/Base',
+    baseURL: 'https://service-api-stas.azurewebsites.net',
     headers: {
         Accept: 'text/plain'
     }

@@ -1,8 +1,9 @@
 .auth {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 90vh;
+    /* align-items: center; */
+    height: 70vh;
+    padding-bottom: 20vh;
     background-color: #E3ECF2
 }
 .home {

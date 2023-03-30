@@ -3,11 +3,14 @@ import ApiClient from '../libs/http-client';
 const ApiServices = {
     endpoints(route, params) {
         const url = {
-            getCarModels: '/ModelNames',
-            getModelBodies: `/AllInfoModels?ModelName=${params.name}`,
-            getEngines: `/Engine?ModelId=${params.id}`,
-            getEquipments: `/Complectation?ModelId=${params.id}&EngineName=${params.name}`,
-            getPartsGroups: `/Group?ComplectationId=${params.id}`
+            getCarModels: '/Base/ModelNames',
+            getModelBodies: `/Base/AllInfoModels?ModelName=${params.name}`,
+            getEngines: `/Base/Engine?ModelId=${params.id}`,
+            getEquipments: `/Base/Complectation?ModelId=${params.id}&EngineName=${params.name}`,
+            getPartsGroups: `/Base/Group?ComplectationId=${params.id}`,
+
+            sendSignInfo: `/Register`,
+            login: `/Login`
         };
 
         return url[route];

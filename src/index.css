@@ -33,6 +33,15 @@ code {
 .justify-between {
     justify-content: space-between;
 }
+.justify-around {
+    justify-content: space-around;
+}
+.border-left {
+    border-left: 1px solid grey;
+}
+.border-bottom {
+    border-bottom: 1px solid grey;
+}
 .gap-1 {
     gap: 4px;
 }
