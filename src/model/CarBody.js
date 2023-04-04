@@ -1,7 +1,7 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 class CarBody {
-    currentBodyId = '';
+    currentBody = {};
 
     list = [];
 
@@ -11,7 +11,7 @@ class CarBody {
     }
 
     setBody(value) {
-        this.currentBodyId = value;
+        this.currentBody = value;
     }
 
     getBodies(params) {
@@ -19,11 +19,18 @@ class CarBody {
             this.services
                 .get('getModelBodies', params)
                 .then((responce) => {
-                    this.list = responce.data.model;
+                    runInAction(() => {
+                        this.list = responce.data.model;
+                    });
                     return resolve(responce);
                 })
                 .catch((error) => reject(error));
         });
+    }
+
+    clearData() {
+        this.currentBody = [];
+        this.list = [];
     }
 }
 

@@ -51,6 +51,12 @@ code {
 .gap-3 {
     gap: 12px;
 }
+.p-1 {
+    padding: 10px;
+}
+.p-2 {
+    padding: 20px;
+}
 .pt-1 {
     padding-top: 10px;
 }

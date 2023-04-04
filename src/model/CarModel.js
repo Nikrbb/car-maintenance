@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 class CarModel {
     choosenModel = '';
@@ -19,11 +19,18 @@ class CarModel {
             this.services
                 .get('getCarModels', {})
                 .then((responce) => {
-                    this.list = responce.data;
+                    runInAction(() => {
+                        this.list = responce.data;
+                    });
                     return resolve(responce);
                 })
                 .catch((error) => reject(error));
         });
+    }
+
+    clearData() {
+        this.choosenModel = [];
+        this.list = [];
     }
 }
 

@@ -1,41 +1,33 @@
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import Button from '@avtopro/button/dist/index';
-import './index.css';
+import { observer } from 'mobx-react-lite';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
+import Header from '../components/Header';
+import { contextRoot } from '../context/contextRoot';
 
-export default function Layout() {
+function Layout() {
+    const {
+        user,
+        user: { isAuth }
+    } = useContext(contextRoot);
     const navigate = useNavigate();
-    const { pathname } = useLocation();
 
     useEffect(() => {
-        // if (!localStorage.getItem('token')) navigate('/');
-        // else navigate('/home');
-    }, []);
+        if (isAuth) navigate('/home');
+        if (!isAuth) navigate('/');
+    }, [isAuth]);
 
     const logout = () => {
-        localStorage.removeItem('token');
-        navigate('/');
+        user.setAuthStatus(false);
     };
 
     return (
         <div className="layout">
-            <header className="headerx">
-                <div className="container d-flex">
-                    <h2 className="header__title m-0">Car Maintenance</h2>
-                    {pathname !== '/' ? (
-                        <Button
-                            onClick={() => logout()}
-                            className="ml-auto"
-                            blockSize="sm"
-                        >
-                            Logout
-                        </Button>
-                    ) : null}
-                </div>
-            </header>
+            <Header logout={logout} />
             <main>
                 <Outlet />
             </main>
         </div>
     );
 }
+
+export default observer(Layout);

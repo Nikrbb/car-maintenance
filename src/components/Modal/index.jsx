@@ -1,8 +1,9 @@
+import './modal.css';
 import Select, { Option } from '@avtopro/select/dist/index';
 import TextInput from '@avtopro/text-input/dist/index';
 import Button from '@avtopro/button/dist/index';
 import ProModal from '@avtopro/modal/dist/index';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import { contextRoot } from '../../context/contextRoot';
@@ -15,17 +16,33 @@ function Modal({ setModalVisibility }) {
         engines,
         configurations,
         groups,
+        parts,
+        cards,
         getModels,
         setModel,
-        setBodyId,
+        setBody,
         setEngineName,
         setConfigId,
         setPartsGroup
     } = useContext(contextRoot);
+    const [selectedItem, selectItem] = useState(null);
+    const [partsAmount, setPartsAmount] = useState(0);
 
     useEffect(() => {
         getModels();
     }, []);
+
+    const createCard = async () => {
+        await cards.addCard({
+            modelName: models.choosenModel,
+            dateStart: bodies.currentBody.dateStart,
+            dateEnd: bodies.currentBody.dateEnd,
+            engine: engines.choosenEngine,
+            mileage: cards.mileage,
+            parts: cards.choosenItems
+        });
+        setModalVisibility(false);
+    };
 
     return (
         <ProModal onClose={() => setModalVisibility(false)}>
@@ -34,12 +51,12 @@ function Modal({ setModalVisibility }) {
                 <hr className="underline" />
             </div>
 
-            <div className="content-step p-relative">
+            <form className="content-step p-relative grid-base">
                 <Select // Model Select
+                    className="g-col-6"
                     onChange={(_, value) => setModel(value[0])}
                     visibleOptionsCount={6}
-                    placeholder="choose model"
-                    disabled={pending}
+                    placeholder="Мodel"
                 >
                     {models.list.map((elem) => (
                         <Option key={elem} value={elem}>
@@ -49,13 +66,13 @@ function Modal({ setModalVisibility }) {
                 </Select>
 
                 <Select // Body Select
-                    onChange={(_, value) => setBodyId(value[0])}
-                    placeholder="choose body"
+                    className="g-col-6"
+                    onChange={(_, value) => setBody(value[0])}
+                    placeholder="Body"
                     visibleOptionsCount={6}
-                    disabled={pending}
                 >
                     {bodies.list.map((elem) => (
-                        <Option key={elem.id} value={elem.id}>
+                        <Option key={elem.id} value={elem}>
                             {`${new Date(
                                 elem.dateEnd
                             ).getFullYear()} - ${new Date(
@@ -66,8 +83,9 @@ function Modal({ setModalVisibility }) {
                 </Select>
 
                 <Select // Engine Select
+                    className="g-col-6"
                     onChange={(_, value) => setEngineName(value[0])}
-                    placeholder="choose engine"
+                    placeholder="Engine"
                     visibleOptionsCount={6}
                     disabled={pending}
                 >
@@ -79,8 +97,9 @@ function Modal({ setModalVisibility }) {
                 </Select>
 
                 <Select // Config Select
+                    className="g-col-6"
                     onChange={(_, value) => setConfigId(value[0])}
-                    placeholder="choose complectation"
+                    placeholder="Complectation"
                     visibleOptionsCount={6}
                     disabled={pending}
                 >
@@ -91,15 +110,22 @@ function Modal({ setModalVisibility }) {
                     ))}
                 </Select>
 
-                <TextInput placeholder="Mileage" type="number" />
+                <TextInput
+                    onChange={({ target: { value } }) =>
+                        cards.setMileage(value)
+                    }
+                    className="g-col-6"
+                    placeholder="Mileage"
+                    type="number"
+                />
                 <hr className="underline" />
-            </div>
+            </form>
 
-            <div className="content-step p-relative">
-                {/* <Select searchable>{[].map((elem) => elem.name)}</Select> */}
+            <form className="content-step p-relative grid-base">
                 <Select // Parts Group Select
+                    className="g-col-12"
                     onChange={(_, value) => setPartsGroup(value[0])}
-                    placeholder="choose parts group"
+                    placeholder="Parts group"
                     visibleOptionsCount={6}
                     disabled={pending}
                 >
@@ -109,19 +135,54 @@ function Modal({ setModalVisibility }) {
                         </Option>
                     ))}
                 </Select>
-                <Select searchable>{[].map((elem) => elem.name)}</Select>
-                <TextInput placeholder="Number" />
-            </div>
-            <div className="content-step p-relative">
-                <Button className="content-step p-relative">+</Button>
-                <div className="content-step border d-flex justify-center align-center">
-                    List of added parts
+
+                <Select // Part Select
+                    onChange={(_, value) => selectItem(value[0])}
+                    className="g-col-8"
+                    searchable
+                    visibleOptionsCount={4}
+                >
+                    {parts.list.map((elem) => (
+                        <Option key={elem.id} value={elem}>
+                            {elem.name}
+                        </Option>
+                    ))}
+                </Select>
+
+                <TextInput
+                    onChange={({ target: { value } }) => setPartsAmount(value)}
+                    type="number"
+                    className="g-col-4"
+                    placeholder="Amount"
+                />
+
+                <Button
+                    onClick={() => cards.addItem(selectedItem, partsAmount)}
+                    type="button"
+                    theme="prime"
+                    className="content-step p-relative g-col-2 g-start-11"
+                >
+                    +
+                </Button>
+            </form>
+
+            <div className="content-step p-relative grid-base">
+                <div className="items border g-col-12">
+                    <ul className="items__list">
+                        {cards.choosenItems.map((part) => (
+                            <li className="items__elem">
+                                <span>{`* ${part.name} - ${part.code} (${part.partCount})`}</span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
                 <hr className="underline" />
             </div>
             <div className="d-flex justify-end gap-3 pt-2">
                 <Button theme="white">Cancel</Button>
-                <Button theme="blue">Create</Button>
+                <Button onClick={() => createCard()} theme="blue">
+                    Create
+                </Button>
             </div>
         </ProModal>
     );

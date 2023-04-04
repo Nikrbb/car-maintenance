@@ -25,6 +25,11 @@ class CarEngine {
                 .catch((error) => reject(error));
         });
     }
+
+    clearData() {
+        this.choosenEngine = [];
+        this.list = [];
+    }
 }
 
 export default CarEngine;

@@ -1,7 +1,12 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
+import Swal from 'sweetalert2';
 
 class UserModel {
-    isAuth = false;
+    isAuth = Boolean(localStorage.getItem('token'));
+
+    token = localStorage.getItem('token')
+        ? localStorage.getItem('token')
+        : null;
 
     email = '';
 
@@ -12,7 +17,12 @@ class UserModel {
         this.services = ApiServices;
     }
 
-    setAuthStatus(value) {
+    setAuthStatus(value, token) {
+        if (value) localStorage.setItem('token', token);
+        else {
+            this.token = null;
+            localStorage.removeItem('token');
+        }
         this.isAuth = value;
     }
 
@@ -27,11 +37,15 @@ class UserModel {
                     }
                 })
                 .then((response) => {
-                    this.pending = false;
+                    runInAction(() => {
+                        this.pending = false;
+                    });
                     return resolve(response);
                 })
                 .catch((error) => {
-                    this.pending = false;
+                    runInAction(() => {
+                        this.pending = false;
+                    });
                     return reject(error);
                 });
         });
@@ -48,12 +62,28 @@ class UserModel {
                     }
                 })
                 .then((response) => {
-                    if (response.status === 200) this.setAuthStatus(true);
-                    this.pending = false;
+                    if (response.status === 200) {
+                        runInAction(() => {
+                            this.setAuthStatus(true, response.data.jwtToken);
+                            this.pending = false;
+                        });
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'successfull login',
+                            showConfirmButton: false,
+                            toast: true,
+                            timer: 2500,
+                            timerProgressBar: true
+                        });
+                    }
                     return resolve(response);
                 })
                 .catch((error) => {
-                    this.pending = false;
+                    runInAction(() => {
+                        this.setAuthStatus(false);
+                        this.pending = false;
+                    });
                     return reject(error);
                 });
         });

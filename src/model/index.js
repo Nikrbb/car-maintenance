@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import UserModel from './UserModel';
 import CarModel from './CarModel';
 import CarEngine from './CarEngine';
@@ -6,6 +6,7 @@ import CarConfiguration from './CarConfiguration';
 import CarBody from './CarBody';
 import PartsGroup from './PartsGroup';
 import PartsList from './PartsList';
+import PartsCards from './PartsCards';
 import ApiServices from '../services/api.service';
 
 export default class Model {
@@ -19,7 +20,8 @@ export default class Model {
         this.engines = new CarEngine(ApiServices);
         this.configurations = new CarConfiguration(ApiServices);
         this.groups = new PartsGroup(ApiServices);
-        this.list = new PartsList(ApiServices);
+        this.parts = new PartsList(ApiServices);
+        this.cards = new PartsCards(ApiServices);
         this.user = new UserModel(ApiServices);
 
         this.selectedParts = new Map();
@@ -28,8 +30,9 @@ export default class Model {
     getModels = async () => {
         this.pending = true;
         await this.models.getModels();
-
-        this.pending = false;
+        runInAction(() => {
+            this.pending = false;
+        });
     };
 
     setModel = async (model) => {
@@ -37,15 +40,18 @@ export default class Model {
         this.models.setModel(model);
 
         await this.bodies.getBodies({ name: this.models.choosenModel });
-        this.pending = false;
+        runInAction(() => {
+            this.pending = false;
+        });
     };
 
-    setBodyId = async (id) => {
+    setBody = async (body) => {
         this.pending = true;
-        this.bodies.setBody(id);
-
-        await this.engines.getEngines({ id: this.bodies.currentBodyId });
-        this.pending = false;
+        this.bodies.setBody(body);
+        await this.engines.getEngines({ id: this.bodies.currentBody.id });
+        runInAction(() => {
+            this.pending = false;
+        });
     };
 
     setEngineName = async (name) => {
@@ -53,10 +59,12 @@ export default class Model {
         this.engines.setEngine(name);
 
         await this.configurations.getConfigs({
-            id: this.bodies.currentBodyId,
+            id: this.bodies.currentBody.id,
             name: this.engines.choosenEngine
         });
-        this.pending = false;
+        runInAction(() => {
+            this.pending = false;
+        });
     };
 
     setConfigId = async (id) => {
@@ -64,10 +72,35 @@ export default class Model {
         this.configurations.setConfig(id);
 
         await this.groups.getGroups({ id });
-        this.pending = false;
+        runInAction(() => {
+            this.pending = false;
+        });
     };
 
     setPartsGroup = async (id) => {
+        this.pending = true;
         this.groups.setGroupId(id);
+
+        await this.parts.getList({ id, name: '' });
+        runInAction(() => {
+            this.pending = false;
+        });
     };
+
+    requestData = async () => {
+        this.pending = true;
+        await this.cards.requestCards();
+        runInAction(() => {
+            this.pending = false;
+        });
+    };
+
+    // makeCard() {
+    //     this.cards.addCard({
+    //         model: this.models.choosenModel,
+    //         engine: this.engines.choosenEngine,
+    //         mileage: '4000km',
+    //         parts: this.cards.itemsList
+    //     });
+    // }
 }

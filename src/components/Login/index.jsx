@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useRef, useState } from 'react';
 import './index.css';
 import TextInput from '@avtopro/text-input/dist/index';
 import Button from '@avtopro/button/dist/index';
@@ -10,19 +9,13 @@ import classNames from 'classnames';
 import { contextRoot } from '../../context/contextRoot';
 
 const Login = observer(() => {
-    const navigate = useNavigate();
+    const [loginStatus, setLoginStatus] = useState('logIn');
     const email = useRef(null);
     const authForm = useRef(null);
-    const [loginStatus, setLoginStatus] = useState('logIn');
     const {
         user,
-        user: { pending, isAuth }
+        user: { pending }
     } = useContext(contextRoot);
-
-    useEffect(() => {
-        if (isAuth) navigate('/home');
-        // else navigate('/home');
-    }, [isAuth]);
 
     const handleClick = async (e) => {
         e.preventDefault();
@@ -40,7 +33,6 @@ const Login = observer(() => {
                 password: formData.get('password')
             });
         }
-        // localStorage.setItem('token', email.current.value);
     };
 
     const changeAuthStatus = (status) => {

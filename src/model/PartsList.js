@@ -1,8 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-class PartsGroup {
-    filteredList = [];
-
+class PartsList {
     list = [];
 
     constructor(ApiServices) {
@@ -10,21 +8,21 @@ class PartsGroup {
         makeAutoObservable(this);
     }
 
-    setGroupId(value) {
-        this.choosenGroup = value;
-    }
-
-    getGroups(param) {
+    getList(param) {
         return new Promise((resolve, reject) => {
             this.services
-                .get('getPartsGroups', param)
-                .then((responce) => {
-                    this.list = responce.data.groups;
-                    return resolve(responce);
+                .get('getPartsList', param)
+                .then((response) => {
+                    this.list = response.data.parts;
+                    return resolve(response);
                 })
                 .catch((error) => reject(error));
         });
     }
+
+    clearData() {
+        this.list = [];
+    }
 }
 
-export default PartsGroup;
+export default PartsList;

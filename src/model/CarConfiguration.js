@@ -25,6 +25,11 @@ class CarConfiguration {
                 .catch((error) => reject(error));
         });
     }
+
+    clearData() {
+        this.choosenComplectation = [];
+        this.list = [];
+    }
 }
 
 export default CarConfiguration;

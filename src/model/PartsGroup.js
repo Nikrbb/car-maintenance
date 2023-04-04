@@ -25,6 +25,11 @@ class PartsGroup {
                 .catch((error) => reject(error));
         });
     }
+
+    clearData() {
+        this.choosenGroup = [];
+        this.list = [];
+    }
 }
 
 export default PartsGroup;
