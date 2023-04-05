@@ -6,7 +6,7 @@ import FormControl from '@avtopro/form-control/dist/index';
 import Button from '@avtopro/button/dist/index';
 import Slider from '@avtopro/slider/dist/index';
 import Select from '@avtopro/select/dist/index';
-import Modal from '../Modal';
+import CreateModal from '../CreateModal';
 
 export default function Header() {
     const [isVisibleFilter, setFilterVisibility] = useState(false);
@@ -49,7 +49,7 @@ export default function Header() {
             ) : null}
 
             {isVisibleModal ? (
-                <Modal setModalVisibility={setModalVisibility} />
+                <CreateModal setModalVisibility={setModalVisibility} />
             ) : null}
         </div>
     );

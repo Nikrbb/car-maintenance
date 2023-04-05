@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
 class CarBody {
-    currentBody = {};
+    currentBody = null;
 
     list = [];
 
@@ -29,7 +29,7 @@ class CarBody {
     }
 
     clearData() {
-        this.currentBody = [];
+        this.currentBody = null;
         this.list = [];
     }
 }

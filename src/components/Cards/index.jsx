@@ -10,14 +10,14 @@ import { observer } from 'mobx-react-lite';
 import { contextRoot } from '../../context/contextRoot';
 
 function Cards() {
-    const { cards, requestData, pending } = useContext(contextRoot);
+    const { cards } = useContext(contextRoot);
     useEffect(() => {
-        requestData();
+        cards.requestCards(true);
     }, []);
 
     return (
         <section className="cards p-2 grid-modal">
-            {pending ? (
+            {cards.pending ? (
                 <div className="g-col-2 g-start-2">
                     <RobotPreloader title="loading" />
                 </div>
@@ -48,7 +48,9 @@ function Cards() {
                         <ul>
                             {el.parts.map((part) => (
                                 <li key={part.code}>
-                                    {`${part.name}-${part.code} (${part.partCount})`}
+                                    <span>
+                                        {`${part.name}-${part.code} (${part.partCount})`}
+                                    </span>
                                 </li>
                             ))}
                         </ul>
@@ -56,7 +58,7 @@ function Cards() {
                     </ItemCard>
                 ))
             )}
-            {!pending && !cards.cardsList[0] ? (
+            {!cards.pending && !cards.cardsList[0] ? (
                 <Placeholder
                     className="g-col-4"
                     title="You haven`t added any card yet"

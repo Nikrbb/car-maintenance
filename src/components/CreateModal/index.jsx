@@ -1,4 +1,5 @@
 import './modal.css';
+// import * as React from 'react';
 import Select, { Option } from '@avtopro/select/dist/index';
 import TextInput from '@avtopro/text-input/dist/index';
 import Button from '@avtopro/button/dist/index';
@@ -8,7 +9,7 @@ import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import { contextRoot } from '../../context/contextRoot';
 
-function Modal({ setModalVisibility }) {
+function CreateModal({ setModalVisibility }) {
     const {
         pending,
         models,
@@ -23,7 +24,8 @@ function Modal({ setModalVisibility }) {
         setBody,
         setEngineName,
         setConfigId,
-        setPartsGroup
+        setPartsGroup,
+        clearModelsData
     } = useContext(contextRoot);
     const [selectedItem, selectItem] = useState(null);
     const [partsAmount, setPartsAmount] = useState(0);
@@ -47,7 +49,8 @@ function Modal({ setModalVisibility }) {
     return (
         <ProModal onClose={() => setModalVisibility(false)}>
             <div className=" p-relative">
-                <h2 className="mt-0">New List</h2>
+                <h2 className="mt-0 modal__title">New List</h2>
+                {pending ? <span className="modal__loading" /> : null}
                 <hr className="underline" />
             </div>
 
@@ -70,6 +73,7 @@ function Modal({ setModalVisibility }) {
                     onChange={(_, value) => setBody(value[0])}
                     placeholder="Body"
                     visibleOptionsCount={6}
+                    disabled={!models.choosenModel}
                 >
                     {bodies.list.map((elem) => (
                         <Option key={elem.id} value={elem}>
@@ -87,7 +91,7 @@ function Modal({ setModalVisibility }) {
                     onChange={(_, value) => setEngineName(value[0])}
                     placeholder="Engine"
                     visibleOptionsCount={6}
-                    disabled={pending}
+                    disabled={!bodies.currentBody}
                 >
                     {engines.list.map((elem) => (
                         <Option key={elem.engineName} value={elem.engineName}>
@@ -101,7 +105,7 @@ function Modal({ setModalVisibility }) {
                     onChange={(_, value) => setConfigId(value[0])}
                     placeholder="Complectation"
                     visibleOptionsCount={6}
-                    disabled={pending}
+                    disabled={!engines.choosenEngine}
                 >
                     {configurations.list.map((elem) => (
                         <Option key={elem.id} value={elem.id}>
@@ -111,6 +115,7 @@ function Modal({ setModalVisibility }) {
                 </Select>
 
                 <TextInput
+                    disabled={!configurations.choosenComplectation}
                     onChange={({ target: { value } }) =>
                         cards.setMileage(value)
                     }
@@ -127,7 +132,7 @@ function Modal({ setModalVisibility }) {
                     onChange={(_, value) => setPartsGroup(value[0])}
                     placeholder="Parts group"
                     visibleOptionsCount={6}
-                    disabled={pending}
+                    disabled={!cards.mileage}
                 >
                     {groups.list.map((elem) => (
                         <Option key={elem.groupId} value={elem.groupId}>
@@ -141,6 +146,7 @@ function Modal({ setModalVisibility }) {
                     className="g-col-8"
                     searchable
                     visibleOptionsCount={4}
+                    disabled={!groups.choosenGroup}
                 >
                     {parts.list.map((elem) => (
                         <Option key={elem.id} value={elem}>
@@ -149,11 +155,12 @@ function Modal({ setModalVisibility }) {
                     ))}
                 </Select>
 
-                <TextInput
+                <TextInput // Amount Select
                     onChange={({ target: { value } }) => setPartsAmount(value)}
                     type="number"
                     className="g-col-4"
                     placeholder="Amount"
+                    disabled={!parts.list.length}
                 />
 
                 <Button
@@ -170,8 +177,15 @@ function Modal({ setModalVisibility }) {
                 <div className="items border g-col-12">
                     <ul className="items__list">
                         {cards.choosenItems.map((part) => (
-                            <li className="items__elem">
+                            <li key={part.id} className="items__elem">
                                 <span>{`* ${part.name} - ${part.code} (${part.partCount})`}</span>
+                                <button
+                                    className="items__delete"
+                                    type="button"
+                                    onClick={() => cards.removeItem(part.id)}
+                                >
+                                    -
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -179,15 +193,17 @@ function Modal({ setModalVisibility }) {
                 <hr className="underline" />
             </div>
             <div className="d-flex justify-end gap-3 pt-2">
-                <Button theme="white">Cancel</Button>
+                <Button onClick={() => clearModelsData()} theme="white">
+                    Cancel
+                </Button>
                 <Button onClick={() => createCard()} theme="blue">
-                    Create
+                    {pending ? <span className="modal__loading" /> : 'Create'}
                 </Button>
             </div>
         </ProModal>
     );
 }
-Modal.propTypes = {
+CreateModal.propTypes = {
     setModalVisibility: PropTypes.func.isRequired
 };
-export default observer(Modal);
+export default observer(CreateModal);

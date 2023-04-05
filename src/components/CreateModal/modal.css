@@ -1,0 +1,50 @@
+.modal__title {
+    display: inline-block;
+    color: darkslategrey;
+}
+.modal__loading {
+    display: inline-block;
+    margin-left: 20px;
+    height: 24px;
+    width: 24px;
+    background-image: url('@avtopro/icons/dist/svg/refresh.svg');
+    animation-name: loading;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+.items {
+    padding: 10px 0;
+    height: 100px;
+    border-radius: 4px;
+    overflow-y: scroll;
+}
+.items__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding-left: 14px;
+}
+.items__elem {
+
+}
+.items__delete {
+    background: none;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    margin-left: auto;
+    color: red;
+    cursor: 'pointer'
+}
+@keyframes loading {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

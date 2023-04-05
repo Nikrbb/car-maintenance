@@ -8,6 +8,7 @@
     "@avtopro/css-grid": "^0.4.0",
     "@avtopro/form-control": "^0.8.7-68cce67.0",
     "@avtopro/form-frame": "^0.5.7-68cce67.0",
+    "@avtopro/icons": "^0.24.0-68cce67.0",
     "@avtopro/item-card": "^0.1.0-a9a6c89.0",
     "@avtopro/modal": "^0.8.7-68cce67.0",
     "@avtopro/password-input": "^0.6.7-68cce67.0",

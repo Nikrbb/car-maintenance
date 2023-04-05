@@ -7,26 +7,26 @@ class PartsCards {
 
     mileage = null;
 
+    pending = false;
+
     constructor(ApiServices) {
         this.services = ApiServices;
         makeAutoObservable(this);
     }
-
-    // addToCard(item) {
-    //     this.itemsList.push(item);
-    // }
 
     addItem(element, amount) {
         if (this.choosenItems.find((el) => el.code === element.code)) {
             const modifyElements = this.choosenItems.map((item) => {
                 if (item.code === element.code) {
                     return {
+                        id: item.id,
                         name: item.name,
                         code: item.code,
                         partCount: +item.partCount + +amount
                     };
                 }
                 return {
+                    id: item.id,
                     name: item.name,
                     code: item.code,
                     partCount: +item.partCount
@@ -35,11 +35,19 @@ class PartsCards {
             this.choosenItems = modifyElements;
         } else {
             this.choosenItems.push({
+                id: element.id,
                 name: element.name,
                 code: element.code,
                 partCount: +amount
             });
         }
+    }
+
+    removeItem(itemId) {
+        const filteredItems = this.choosenItems.filter(
+            (el) => el.id !== itemId
+        );
+        this.choosenItems = filteredItems;
     }
 
     setMileage(km) {
@@ -51,7 +59,9 @@ class PartsCards {
             this.services
                 .post('postNewCard', {}, card)
                 .then((response) => {
-                    this.cardsList.push(card);
+                    runInAction(() => {
+                        this.cardsList.push(response.data.card);
+                    });
                     return resolve(response);
                 })
                 .catch((error) => reject(error));
@@ -63,17 +73,21 @@ class PartsCards {
             this.services
                 .delete('removeCard', {}, { id })
                 .then((response) => resolve(response))
+                .then(() => this.requestCards(false))
                 .catch((error) => reject(error));
         });
     }
 
-    requestCards() {
+    requestCards(reload) {
+        this.pending = reload;
+
         return new Promise((resolve, reject) => {
             this.services
                 .get('getAllCards', {})
                 .then((response) => {
                     runInAction(() => {
                         this.cardsList = response.data?.card;
+                        this.pending = false;
                     });
                     return resolve(response);
                 })
@@ -83,8 +97,7 @@ class PartsCards {
 
     clearData() {
         this.choosenItems = [];
-        this.cardsList = [];
-        this.mileage = null;
+        this.mileage = 0;
     }
 }
 
