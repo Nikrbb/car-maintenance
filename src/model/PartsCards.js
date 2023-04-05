@@ -49,15 +49,20 @@ class PartsCards {
     addCard(card) {
         return new Promise((resolve, reject) => {
             this.services
-                .post('postNewCard', {}, card, {
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                })
+                .post('postNewCard', {}, card)
                 .then((response) => {
                     this.cardsList.push(card);
                     return resolve(response);
                 })
+                .catch((error) => reject(error));
+        });
+    }
+
+    deleteCard(id) {
+        return new Promise((resolve, reject) => {
+            this.services
+                .delete('removeCard', {}, { id })
+                .then((response) => resolve(response))
                 .catch((error) => reject(error));
         });
     }

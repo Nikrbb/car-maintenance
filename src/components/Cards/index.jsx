@@ -34,7 +34,15 @@ function Cards() {
                                 <span>{el.mileage}</span>
                             </div>
                         }
-                        controls={<Button>edit</Button>}
+                        controls={
+                            <Button
+                                onClick={() => {
+                                    cards.deleteCard(el.id);
+                                }}
+                            >
+                                delete
+                            </Button>
+                        }
                     >
                         {/* <ItemCardBlock> */}
                         <ul>

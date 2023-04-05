@@ -4,7 +4,8 @@ import Axios from 'axios';
 const options = {
     baseURL: 'https://service-api-stas.azurewebsites.net',
     headers: {
-        Accept: 'text/plain'
+        Accept: '*/*',
+        'content-type': 'application/json'
     }
 };
 
@@ -42,12 +43,12 @@ const ApiClient = {
         return httpClient.put(url, data, conf);
     },
 
-    delete(url, data = {}) {
-        return httpClient.delete(url, data);
-    },
-
     post(url, data = {}, conf = {}) {
         return httpClient.post(url, data, conf);
+    },
+
+    delete(url, conf = {}) {
+        return httpClient.delete(url, conf);
     }
 };
 
