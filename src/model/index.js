@@ -6,11 +6,12 @@ import CarConfiguration from './CarConfiguration';
 import CarBody from './CarBody';
 import PartsGroup from './PartsGroup';
 import PartsList from './PartsList';
+import EditCard from './EditCard';
 import Cards from './Cards';
 import ApiServices from '../services/api.service';
 
 export default class Model {
-    pending = false;
+    pending = true;
 
     constructor() {
         makeAutoObservable(this);
@@ -22,6 +23,7 @@ export default class Model {
         this.groups = new PartsGroup(ApiServices);
         this.parts = new PartsList(ApiServices);
         this.cards = new Cards(ApiServices);
+        this.edit = new EditCard(ApiServices);
         this.user = new UserModel(ApiServices);
     }
 

@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 class CarEngine {
     choosenEngine = '';
@@ -19,7 +19,9 @@ class CarEngine {
             this.services
                 .get('getEngines', params)
                 .then((response) => {
-                    this.list = response.data.engine;
+                    runInAction(() => {
+                        this.list = response.data.engine;
+                    });
                     return resolve(response);
                 })
                 .catch((error) => reject(error));

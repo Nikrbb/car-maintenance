@@ -11,6 +11,7 @@
     "@avtopro/icons": "^0.24.0-68cce67.0",
     "@avtopro/item-card": "^0.1.0-a9a6c89.0",
     "@avtopro/modal": "^0.8.7-68cce67.0",
+    "@avtopro/number-input": "^0.1.0-cdcabfe.0",
     "@avtopro/password-input": "^0.6.7-68cce67.0",
     "@avtopro/preloader": "^0.4.7-68cce67.0",
     "@avtopro/select": "^0.16.7-68cce67.0",

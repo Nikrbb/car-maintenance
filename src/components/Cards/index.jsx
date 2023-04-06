@@ -1,5 +1,5 @@
 import './cards.css';
-import { useContext, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import Button from '@avtopro/button/dist/index';
 import ItemCard from '@avtopro/item-card/dist/index';
 // import ItemCardBlock from '@avtopro/item-card/src/ItemCardBlock';
@@ -8,12 +8,12 @@ import Placeholder from '@avtopro/placeholder/dist/index';
 import PlaceholderRobot from '@avtopro/placeholder-robot/dist/index';
 import { observer } from 'mobx-react-lite';
 import { contextRoot } from '../../context/contextRoot';
+import EditModal from '../EditModal';
 
 function Cards() {
+    const [isVisibleModal, setModalVisibility] = useState(false);
+    const [cardToEdit, setCardToEdit] = useState(null);
     const { cards } = useContext(contextRoot);
-    useEffect(() => {
-        cards.requestCards(true);
-    }, []);
 
     return (
         <section className="cards p-2 grid-modal">
@@ -24,33 +24,57 @@ function Cards() {
             ) : (
                 cards.cardsList.map((el) => (
                     <ItemCard
+                        className="card"
                         key={el.id}
                         title={
-                            <div className="cards__item">
-                                <h5 className="cards__title">
+                            <div className="card__item">
+                                <h5 className="card__title">
                                     Toyota {el.modelName}
                                 </h5>
-                                <span>{el.engine}</span>
-                                <span>{el.mileage}</span>
+                                <p className="card__subtitle">
+                                    engine: <span>{el.engine}</span>
+                                </p>
+
+                                <p className="card__subtitle">
+                                    mileage: <span>{el.mileage} km</span>
+                                </p>
                             </div>
                         }
-                        controls={
+                        controls={[
                             <Button
+                                className="card__btn"
+                                theme="youtube"
+                                key="delete"
+                                blockSize="sm"
                                 onClick={() => {
                                     cards.deleteCard(el.id);
                                 }}
                             >
                                 delete
+                            </Button>,
+                            <Button
+                                className="card__btn"
+                                key="edit"
+                                theme="light-blue"
+                                blockSize="sm"
+                                onClick={() => {
+                                    setModalVisibility(true);
+                                    setCardToEdit(el);
+                                }}
+                            >
+                                edit
                             </Button>
-                        }
+                        ]}
                     >
                         {/* <ItemCardBlock> */}
-                        <ul>
+                        <ul className="card__list">
                             {el.parts.map((part) => (
-                                <li key={part.code}>
-                                    <span>
-                                        {`${part.name}-${part.code} (${part.partCount})`}
+                                <li className="card__list-item" key={part.code}>
+                                    <span style={{ display: 'block' }}>
+                                        {part.name}
                                     </span>
+                                    <span>{part.code}</span>
+                                    <span>-({part.partCount})</span>
                                 </li>
                             ))}
                         </ul>
@@ -69,6 +93,13 @@ function Cards() {
                     </div>
                     <PlaceholderRobot type="no-banner" />
                 </Placeholder>
+            ) : null}
+
+            {isVisibleModal ? (
+                <EditModal
+                    setModalVisibility={setModalVisibility}
+                    card={cardToEdit}
+                />
             ) : null}
         </section>
     );

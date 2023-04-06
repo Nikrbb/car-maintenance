@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 class PartsGroup {
     choosenGroup = null;
@@ -19,7 +19,9 @@ class PartsGroup {
             this.services
                 .get('getPartsGroups', param)
                 .then((responce) => {
-                    this.list = responce.data.groups;
+                    runInAction(() => {
+                        this.list = responce.data.groups;
+                    });
                     return resolve(responce);
                 })
                 .catch((error) => reject(error));

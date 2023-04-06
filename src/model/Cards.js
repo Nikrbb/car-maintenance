@@ -1,11 +1,17 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
-class PartsCards {
+class Cards {
     choosenItems = [];
 
     cardsList = [];
 
+    initialList = [];
+
     mileage = null;
+
+    minMaxValue = [];
+
+    searchedMinMix = [];
 
     pending = false;
 
@@ -54,6 +60,17 @@ class PartsCards {
         this.mileage = +km;
     }
 
+    setSearchedRange(range) {
+        this.searchedMinMix = range;
+    }
+
+    filterByMileage(range) {
+        const filteredList = this.initialList.filter(
+            (item) => item.mileage >= range[0] && item.mileage <= range[1]
+        );
+        this.cardsList = filteredList;
+    }
+
     addCard(card) {
         return new Promise((resolve, reject) => {
             this.services
@@ -68,12 +85,47 @@ class PartsCards {
         });
     }
 
+    editCard(cardData) {
+        return new Promise((resolve, reject) => {
+            this.services
+                .put('updateCard', {}, cardData)
+                .then((response) => {
+                    const idx = this.cardsList.findIndex(
+                        (el) => el.id === response.data.card.id
+                    );
+                    runInAction(() => {
+                        this.cardsList[idx] = response.data.card;
+                    });
+                    return resolve(response);
+                })
+                // .then(() => this.requestCards(false))
+                .catch((error) => reject(error));
+        });
+    }
+
     deleteCard(id) {
         return new Promise((resolve, reject) => {
             this.services
                 .delete('removeCard', {}, { id })
                 .then((response) => resolve(response))
                 .then(() => this.requestCards(false))
+                .catch((error) => reject(error));
+        });
+    }
+
+    search(string) {
+        this.pending = true;
+        return new Promise((resolve, reject) => {
+            this.services
+                .get('searchCards', { name: string })
+                .then((response) => {
+                    runInAction(() => {
+                        this.cardsList = response.data?.card;
+                        this.initialList = response.data?.card;
+                        this.pending = false;
+                    });
+                    return resolve(response);
+                })
                 .catch((error) => reject(error));
         });
     }
@@ -87,7 +139,21 @@ class PartsCards {
                 .then((response) => {
                     runInAction(() => {
                         this.cardsList = response.data?.card;
+                        this.initialList = response.data?.card;
                         this.pending = false;
+                        const range = response.data.card.reduce((acc, curr) => {
+                            acc[0] =
+                                acc[0] === undefined || curr.mileage < acc[0]
+                                    ? curr.mileage
+                                    : acc[0];
+                            acc[1] =
+                                acc[1] === undefined || curr.mileage > acc[1]
+                                    ? curr.mileage
+                                    : acc[1];
+                            return acc;
+                        }, []);
+
+                        this.minMaxValue = range;
                     });
                     return resolve(response);
                 })
@@ -101,4 +167,4 @@ class PartsCards {
     }
 }
 
-export default PartsCards;
+export default Cards;

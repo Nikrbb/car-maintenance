@@ -7,7 +7,10 @@ const ApiServices = {
             sendSignInfo: `/Register`,
             getAllCards: '/getCards',
             getCarModels: '/Base/ModelNames',
+            updateCard: '/updateCard',
             removeCard: '/deleteCard',
+            searchCards: `/getCardsSearch?SearchString=${params.name}`,
+            searchByMileage: `getCardsByMileage?MinimumMileage=${params.min}&MaximumMileage=${params.max}`,
             getModelBodies: `/Base/AllInfoModels?ModelName=${params.name}`,
             getEngines: `/Base/Engine?ModelId=${params.id}`,
             getEquipments: `/Base/Complectation?ModelId=${params.id}&EngineName=${params.name}`,
@@ -24,6 +27,9 @@ const ApiServices = {
     },
     post(url, params, data, config = {}) {
         return ApiClient.post(this.endpoints(url, params), data, config);
+    },
+    put(url, params, data, config = {}) {
+        return ApiClient.put(this.endpoints(url, params), data, config);
     },
     delete(url, params, data, config = {}) {
         const newConfig = config;

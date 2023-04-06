@@ -6,7 +6,9 @@
 @import '@avtopro/slider/dist/style.css';
 @import '@avtopro/select/dist/style.css';
 @import '@avtopro/item-card/dist/style.css';
+@import '@avtopro/number-input/dist/style.css';
 @import '@avtopro/modal/dist/style.css';
 @import '@avtopro/password-input/dist/style.css';
 @import '@avtopro/preloader/dist/style.css';
 @import '@avtopro/css-grid/dist/index.css';
+

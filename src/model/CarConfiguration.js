@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 class CarConfiguration {
     choosenComplectation = null;
@@ -19,7 +19,9 @@ class CarConfiguration {
             this.services
                 .get('getEquipments', params)
                 .then((response) => {
-                    this.list = response.data.complectation;
+                    runInAction(() => {
+                        this.list = response.data.complectation;
+                    });
                     return resolve(response);
                 })
                 .catch((error) => reject(error));

@@ -4,7 +4,7 @@ import Select, { Option } from '@avtopro/select/dist/index';
 import TextInput from '@avtopro/text-input/dist/index';
 import Button from '@avtopro/button/dist/index';
 import ProModal from '@avtopro/modal/dist/index';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import { contextRoot } from '../../context/contextRoot';
@@ -19,7 +19,6 @@ function CreateModal({ setModalVisibility }) {
         groups,
         parts,
         cards,
-        getModels,
         setModel,
         setBody,
         setEngineName,
@@ -29,10 +28,6 @@ function CreateModal({ setModalVisibility }) {
     } = useContext(contextRoot);
     const [selectedItem, selectItem] = useState(null);
     const [partsAmount, setPartsAmount] = useState(0);
-
-    useEffect(() => {
-        getModels();
-    }, []);
 
     const createCard = async () => {
         await cards.addCard({
@@ -78,9 +73,9 @@ function CreateModal({ setModalVisibility }) {
                     {bodies.list.map((elem) => (
                         <Option key={elem.id} value={elem}>
                             {`${new Date(
-                                elem.dateEnd
-                            ).getFullYear()} - ${new Date(
                                 elem.dateStart
+                            ).getFullYear()} - ${new Date(
+                                elem.dateEnd
                             ).getFullYear()}`}
                         </Option>
                     ))}
