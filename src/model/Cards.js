@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import Swal from 'sweetalert2';
 
 class Cards {
     choosenItems = [];
@@ -96,6 +97,15 @@ class Cards {
                     runInAction(() => {
                         this.cardsList[idx] = response.data.card;
                     });
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'card edited successfully',
+                        showConfirmButton: false,
+                        toast: true,
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
                     return resolve(response);
                 })
                 // .then(() => this.requestCards(false))
@@ -109,6 +119,17 @@ class Cards {
                 .delete('removeCard', {}, { id })
                 .then((response) => resolve(response))
                 .then(() => this.requestCards(false))
+                .then(() => {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'deleted successfully',
+                        showConfirmButton: false,
+                        toast: true,
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+                })
                 .catch((error) => reject(error));
         });
     }
@@ -141,6 +162,7 @@ class Cards {
                         this.cardsList = response.data?.card;
                         this.initialList = response.data?.card;
                         this.pending = false;
+
                         const range = response.data.card.reduce((acc, curr) => {
                             acc[0] =
                                 acc[0] === undefined || curr.mileage < acc[0]

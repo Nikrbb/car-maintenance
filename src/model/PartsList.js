@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
 class PartsList {
-    list = [];
+    list = null;
 
     constructor(ApiServices) {
         this.services = ApiServices;

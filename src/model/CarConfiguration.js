@@ -29,7 +29,7 @@ class CarConfiguration {
     }
 
     clearData() {
-        this.choosenComplectation = [];
+        this.choosenComplectation = null;
         this.list = [];
     }
 }

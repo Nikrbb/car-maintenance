@@ -38,11 +38,12 @@ function CreateModal({ setModalVisibility }) {
             mileage: cards.mileage,
             parts: cards.choosenItems
         });
+        clearModelsData();
         setModalVisibility(false);
     };
 
     return (
-        <ProModal onClose={() => setModalVisibility(false)}>
+        <ProModal size="wide" onClose={() => setModalVisibility(false)}>
             <div className=" p-relative">
                 <h2 className="mt-0 modal__title">New List</h2>
                 {pending ? <span className="modal__loading" /> : null}
@@ -144,7 +145,7 @@ function CreateModal({ setModalVisibility }) {
                     disabled={!groups.choosenGroup}
                 >
                     {parts.list.map((elem) => (
-                        <Option key={elem.id} value={elem}>
+                        <Option key={elem.name} value={elem}>
                             {elem.name}
                         </Option>
                     ))}
@@ -159,6 +160,7 @@ function CreateModal({ setModalVisibility }) {
                 />
 
                 <Button
+                    disabled={!partsAmount}
                     onClick={() => cards.addItem(selectedItem, partsAmount)}
                     type="button"
                     theme="prime"
@@ -188,7 +190,13 @@ function CreateModal({ setModalVisibility }) {
                 <hr className="underline" />
             </div>
             <div className="d-flex justify-end gap-3 pt-2">
-                <Button onClick={() => clearModelsData()} theme="white">
+                <Button
+                    onClick={() => {
+                        setModalVisibility(false);
+                        clearModelsData();
+                    }}
+                    theme="white"
+                >
                     Cancel
                 </Button>
                 <Button onClick={() => createCard()} theme="blue">

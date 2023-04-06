@@ -29,7 +29,7 @@ class PartsGroup {
     }
 
     clearData() {
-        this.choosenGroup = [];
+        this.choosenGroup = null;
         this.list = [];
     }
 }

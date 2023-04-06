@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
 class CarEngine {
-    choosenEngine = '';
+    choosenEngine = null;
 
     list = [];
 
@@ -29,7 +29,7 @@ class CarEngine {
     }
 
     clearData() {
-        this.choosenEngine = [];
+        this.choosenEngine = null;
         this.list = [];
     }
 }
