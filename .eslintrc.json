@@ -12,12 +12,12 @@
     },
     "plugins": ["prettier"],
     "rules": {
+        "linebreak-style": ["error", "windows"],
         "prettier/prettier": "error",
         "prefer-template": "warn",
         "prefer-destructuring": "warn",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react/react-in-jsx-scope": "off",
-        "import/no-extraneous-dependencies": "off",
-        "linebreak-style": ["error", "windows"]
+        "import/no-extraneous-dependencies": "off"
     }
 }
