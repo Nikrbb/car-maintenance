@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
+      - name: Set line endings to CRLF
+        run: git config --global core.autocrlf true
       - uses: actions/checkout@v2
         with:
           submodules: true
@@ -24,7 +26,6 @@ jobs:
         run: |
           cat .npmrc_github > .npmrc
           sed -i 's/NPM_TOKEN/${{ secrets.NPM_TOKEN }}/g' .npmrc
-          git config --global core.autocrlf false
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
