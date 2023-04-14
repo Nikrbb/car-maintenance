@@ -44,16 +44,16 @@ export default class Model {
 
         this.models.setModel(model);
 
-        await this.bodies.getBodies({ name: this.models.choosenModel });
-        runInAction(() => {
-            this.pending = false;
-        });
-
         this.engines.clearData();
         this.configurations.clearData();
         this.groups.clearData();
         this.parts.clearData();
         this.cards.clearData();
+
+        await this.bodies.getBodies({ name: this.models.choosenModel });
+        runInAction(() => {
+            this.pending = false;
+        });
     };
 
     setBody = async (body) => {

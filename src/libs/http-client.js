@@ -1,5 +1,5 @@
 import Axios from 'axios';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 const options = {
     baseURL: 'https://service-api-stas.azurewebsites.net',
@@ -19,20 +19,41 @@ httpClient.interceptors.request.use((config) => {
     return conf;
 });
 
-// httpClient.interceptors.response.use((response) => {
-//     if (response.status === '401') {
-//         Swal.fire({
-//             position: 'top-end',
-//             icon: 'error',
-//             title: 'unfortunately, you have been sing out',
-//             showConfirmButton: false,
-//             toast: true,
-//             timer: 2500,
-//             timerProgressBar: true
-//         });
-//     };
-//     return response;
-// });
+httpClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const { data, status } = error.response;
+
+        let message = '';
+
+        if (status === 401) {
+            message = 'Unauthorized';
+        }
+
+        if (status === 400) {
+            if (data.errors) {
+                Object.keys(data.errors).forEach((itemMessage, index) => {
+                    if (!index) message = `*${data.errors[itemMessage][0]}`;
+                    else if (index) {
+                        message += `<br>*${data.errors[itemMessage][0]}`;
+                    }
+                });
+            } else {
+                message = data.message;
+            }
+        }
+
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: message,
+            showConfirmButton: false,
+            toast: true,
+            timer: 2500,
+            timerProgressBar: true
+        });
+    }
+);
 
 const ApiClient = {
     get(url, conf = {}) {

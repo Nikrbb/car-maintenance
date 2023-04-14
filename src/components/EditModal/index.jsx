@@ -4,6 +4,7 @@ import NumberInput from '@avtopro/number-input/dist/index';
 import ProModal from '@avtopro/modal/dist/index';
 import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import Collapse from '@avtopro/collapse/dist/index';
 import PropTypes from 'prop-types';
 import { contextRoot } from '../../context/contextRoot';
 
@@ -55,7 +56,14 @@ function EditModal({ setModalVisibility, card }) {
                     {edit.cardData?.parts
                         ? edit.cardData.parts.map((part) => (
                               <li key={part.code} className="edit__list-item">
-                                  <p className="edit__name">{part.name}</p>
+                                  <Collapse
+                                      openWord="show"
+                                      className="edit__name"
+                                      maxLength="15"
+                                  >
+                                      {part.name}
+                                  </Collapse>
+                                  {/* <p className="edit__name">{part.name}</p> */}
                                   <p className="edit__code">{part.code}</p>
                                   <NumberInput
                                       onChange={({ target: { value } }) =>

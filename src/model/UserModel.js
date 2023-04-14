@@ -40,6 +40,15 @@ class UserModel {
                     runInAction(() => {
                         this.pending = false;
                     });
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'successfull registration',
+                        showConfirmButton: false,
+                        toast: true,
+                        timer: 2500,
+                        timerProgressBar: true
+                    });
                     return resolve(response);
                 })
                 .catch((error) => {

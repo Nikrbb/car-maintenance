@@ -57,6 +57,7 @@
     flex-basis: 45%;
     flex-grow: 0;
     margin: 0;
+    max-width: unset;
 }
 .edit__code {
     display: flex;

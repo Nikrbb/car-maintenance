@@ -19,6 +19,7 @@
 }
 .controls__slider {
     flex-basis: 50%;
+    flex-direction: column;
 }
 .content-step {
     padding: 25px 0;

@@ -28,6 +28,8 @@
     padding-left: 14px;
 }
 .items__elem {
+    display: flex;
+    
 
 }
 .items__delete {

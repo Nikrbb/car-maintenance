@@ -75,20 +75,29 @@ function Controls() {
             </div>
 
             {isVisibleFilter ? (
-                <div className="controls__selection d-flex align-center">
-                    <Slider
-                        onChange={(val) => {
-                            cards.setSearchedRange(val);
-                        }}
-                        min={cards.minMaxValue[0]}
-                        max={cards.minMaxValue[1]}
-                        className="controls__slider"
-                        ariaLabel={['Lower', 'Upper']}
-                        defaultValue={[
-                            cards.minMaxValue[0],
-                            cards.minMaxValue[1]
-                        ]}
-                    />
+                <div className="controls__selection">
+                    <div className="controls__slider">
+                        <p className="d-flex justify-between">
+                            <span>
+                                {initialRender
+                                    ? cards.minMaxValue[0]
+                                    : cards.searchedMinMix[0]}
+                            </span>
+                            <span>{cards.searchedMinMix[1]}</span>
+                        </p>
+                        <Slider
+                            onChange={(val) => {
+                                cards.setSearchedRange(val);
+                            }}
+                            min={cards.minMaxValue[0]}
+                            max={cards.minMaxValue[1]}
+                            ariaLabel={['Lower', 'Upper']}
+                            defaultValue={[
+                                cards.minMaxValue[0],
+                                cards.minMaxValue[1]
+                            ]}
+                        />
+                    </div>
                     <Select
                         onChange={(_, value) => setSearchString(value[0])}
                         placeholder="model"

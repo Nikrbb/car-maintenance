@@ -5,6 +5,7 @@ import TextInput from '@avtopro/text-input/dist/index';
 import Button from '@avtopro/button/dist/index';
 import PasswordInput from '@avtopro/password-input/dist/index';
 import RobotPreloader from '@avtopro/preloader/dist/index';
+import Swal from 'sweetalert2';
 import classNames from 'classnames';
 import { contextRoot } from '../../context/contextRoot';
 
@@ -22,10 +23,32 @@ const Login = observer(() => {
         const formData = new FormData(authForm.current);
 
         if (loginStatus === 'signIn') {
-            await user.register({
-                email: formData.get('email'),
-                password: formData.get('password')
-            });
+            if (formData.get('password') !== formData.get('confirm')) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'password confirm doesn`t match',
+                    showConfirmButton: false,
+                    toast: true,
+                    timer: 2500,
+                    timerProgressBar: true
+                });
+            } else if (formData.get('password').length < 6) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'password has less than 6 characters',
+                    showConfirmButton: false,
+                    toast: true,
+                    timer: 2500,
+                    timerProgressBar: true
+                });
+            } else {
+                await user.register({
+                    email: formData.get('email'),
+                    password: formData.get('password')
+                });
+            }
         }
         if (loginStatus === 'logIn') {
             await user.login({
@@ -36,6 +59,7 @@ const Login = observer(() => {
     };
 
     const changeAuthStatus = (status) => {
+        authForm.current.reset();
         setLoginStatus(status);
     };
 

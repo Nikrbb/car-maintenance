@@ -14,7 +14,6 @@ function Cards() {
     const [isVisibleModal, setModalVisibility] = useState(false);
     const [cardToEdit, setCardToEdit] = useState(null);
     const { cards } = useContext(contextRoot);
-
     return (
         <section className="cards p-2 grid-modal">
             {cards.pending ? (

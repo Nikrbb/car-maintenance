@@ -4,6 +4,7 @@ import Select, { Option } from '@avtopro/select/dist/index';
 import TextInput from '@avtopro/text-input/dist/index';
 import Button from '@avtopro/button/dist/index';
 import ProModal from '@avtopro/modal/dist/index';
+// import Collapse from '@avtopro/collapse/dist/index';
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
@@ -52,6 +53,7 @@ function CreateModal({ setModalVisibility }) {
 
             <form className="content-step p-relative grid-base">
                 <Select // Model Select
+                    disabled={pending}
                     className="g-col-6"
                     onChange={(_, value) => setModel(value[0])}
                     visibleOptionsCount={6}
@@ -69,7 +71,7 @@ function CreateModal({ setModalVisibility }) {
                     onChange={(_, value) => setBody(value[0])}
                     placeholder="Body"
                     visibleOptionsCount={6}
-                    disabled={!models.choosenModel}
+                    disabled={!models.choosenModel || pending}
                 >
                     {bodies.list.map((elem) => (
                         <Option key={elem.id} value={elem}>
@@ -87,7 +89,7 @@ function CreateModal({ setModalVisibility }) {
                     onChange={(_, value) => setEngineName(value[0])}
                     placeholder="Engine"
                     visibleOptionsCount={6}
-                    disabled={!bodies.currentBody}
+                    disabled={!bodies.currentBody || pending}
                 >
                     {engines.list.map((elem) => (
                         <Option key={elem.engineName} value={elem.engineName}>
@@ -101,7 +103,7 @@ function CreateModal({ setModalVisibility }) {
                     onChange={(_, value) => setConfigId(value[0])}
                     placeholder="Complectation"
                     visibleOptionsCount={6}
-                    disabled={!engines.choosenEngine}
+                    disabled={!engines.choosenEngine || pending}
                 >
                     {configurations.list.map((elem) => (
                         <Option key={elem.id} value={elem.id}>
@@ -142,7 +144,7 @@ function CreateModal({ setModalVisibility }) {
                     className="g-col-8"
                     searchable
                     visibleOptionsCount={4}
-                    disabled={!groups.choosenGroup}
+                    disabled={!groups.choosenGroup || pending}
                 >
                     {parts.list.map((elem) => (
                         <Option key={elem.name} value={elem}>
@@ -175,7 +177,11 @@ function CreateModal({ setModalVisibility }) {
                     <ul className="items__list">
                         {cards.choosenItems.map((part) => (
                             <li key={part.id} className="items__elem">
-                                <span>{`* ${part.name} - ${part.code} (${part.partCount})`}</span>
+                                {/* <f maxLength="40">{`* ${part.name} - ${part.code} (${part.partCount})`}</Collapse> */}
+                                <span>
+                                    `* ${part.name} - ${part.code} ($
+                                    {part.partCount})`
+                                </span>
                                 <button
                                     className="items__delete"
                                     type="button"
